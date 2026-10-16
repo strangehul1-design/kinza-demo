@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Кинза — фуршеты и кейтеринг, Салават</title>
+<meta name="description" content="Кафе «Кинза», Салават. Соберите фуршет поштучно, посмотрите цену на персону и закажите напрямую.">
+<meta name="theme-color" content="#F7F3EC">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;500;600&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --sand:#F7F3EC;
+  --paper:#FFFFFF;
+  --deep:#0E4F4A;
+  --lagoon:#1C8C8C;
+  --coral:#E4572E;
+  --sun:#EFB03C;
+  --line:#DED5C6;
+  --muted:#6E6A61;
+  --disp:Unbounded,system-ui,sans-serif;
+  --sans:Manrope,system-ui,sans-serif;
+  --ease:cubic-bezier(0.23,1,0.32,1);
+  --t:.26s;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--sand);color:var(--deep);font:400 17px/1.6 var(--sans);-webkit-font-smoothing:antialiased;overflow-x:hidden;padding-bottom:92px}
+h1,h2,h3{margin:0;font-family:var(--disp);font-weight:400;letter-spacing:-.02em;line-height:1.12}
+p{margin:0}
+button{font:inherit;cursor:pointer}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:1140px;margin:0 auto;padding-left:26px;padding-right:26px}
+.lab{font:600 11px/1 var(--sans);letter-spacing:.16em;text-transform:uppercase;color:var(--lagoon)}
+
+.hdr{position:sticky;top:0;z-index:50;background:rgba(247,243,236,.93);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.hdr__in{display:flex;align-items:center;gap:18px;height:74px}
+.logo{font-family:var(--disp);font-weight:600;font-size:22px;letter-spacing:.06em}
+.logo span{color:var(--lagoon)}
+.hdr .meta{font-size:14px;color:var(--muted)}
+.hdr .tel{margin-left:auto;font-weight:700;font-size:16px;white-space:nowrap}
+
+.hero{padding:62px 0 40px}
+.hero h1{font-size:clamp(32px,4.8vw,58px);max-width:18ch}
+.hero h1 em{font-style:normal;color:var(--lagoon)}
+.hero p.sub{margin-top:20px;max-width:54ch;font-size:18px;color:var(--muted)}
+.facts{display:flex;gap:30px;margin-top:30px;flex-wrap:wrap}
+.facts b{display:block;font-family:var(--disp);font-size:26px;font-weight:400;line-height:1.1}
+.facts span{font-size:13px;color:var(--muted)}
+
+.arch{
+  margin-top:28px;background:var(--paper);border:1px solid var(--line);
+  border-radius:180px 180px 28px 28px;padding:52px 40px 36px;text-align:center;position:relative;
+}
+.arch .lab{display:block}
+.arch h2{font-size:clamp(24px,3vw,34px);margin-top:10px}
+.arch .num{font-family:var(--disp);font-size:clamp(40px,7vw,76px);color:var(--coral);line-height:1;margin-top:18px}
+.arch p{margin-top:14px;color:var(--muted);max-width:50ch;margin-left:auto;margin-right:auto}
+
+section{padding:52px 0}
+.head h2{font-size:clamp(26px,3.4vw,40px)}
+.head h2 em{font-style:normal;color:var(--lagoon)}
+.head p{margin-top:13px;color:var(--muted);max-width:60ch}
+
+/* конструктор */
+.build{display:grid;grid-template-columns:1fr 320px;gap:24px;align-items:start;margin-top:28px}
+.cats{display:flex;gap:9px;flex-wrap:wrap;margin-bottom:18px}
+.cat{border:1px solid var(--line);background:var(--paper);color:var(--deep);border-radius:999px;padding:10px 18px;font-weight:600;font-size:14px;transition:background var(--t) var(--ease),color var(--t) var(--ease),border-color var(--t) var(--ease)}
+.cat[aria-selected="true"]{background:var(--deep);border-color:var(--deep);color:var(--sand)}
+.items{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px}
+.item{background:var(--paper);border:1px solid var(--line);border-radius:22px;padding:18px 20px;display:flex;flex-direction:column;gap:7px;transition:border-color var(--t) var(--ease)}
+.item h4{margin:0;font-size:17px;font-weight:700;line-height:1.25}
+.item .u{font-size:13px;color:var(--muted)}
+.item .f{display:flex;align-items:center;gap:12px;margin-top:auto;padding-top:12px}
+.item .pr{font-family:var(--disp);font-size:20px}
+.add{margin-left:auto;width:38px;height:38px;border-radius:50%;border:1px solid var(--line);background:var(--sand);color:var(--deep);font-size:19px;line-height:1;flex:none;transition:background var(--t) var(--ease),color var(--t) var(--ease),border-color var(--t) var(--ease)}
+.qty{margin-left:auto;display:flex;align-items:center;gap:9px}
+.qty b{min-width:22px;text-align:center;font-weight:700}
+.qty .add{margin-left:0;width:34px;height:34px;font-size:17px}
+.item.on{border-color:var(--lagoon)}
+
+.sum{position:sticky;top:94px;background:var(--deep);color:var(--sand);border-radius:28px;padding:24px}
+.sum .lab{color:rgba(247,243,236,.6)}
+.guests{display:flex;align-items:center;gap:12px;margin:12px 0 20px}
+.guests button{width:38px;height:38px;border-radius:50%;border:1px solid rgba(247,243,236,.3);background:none;color:var(--sand);font-size:18px;line-height:1;transition:background var(--t) var(--ease)}
+.guests b{font-family:var(--disp);font-size:28px;font-weight:400;min-width:52px;text-align:center}
+.rows div{display:flex;justify-content:space-between;gap:12px;padding:10px 0;border-bottom:1px solid rgba(247,243,236,.16);font-size:14px}
+.rows div:last-child{border-bottom:none}
+.rows span{color:rgba(247,243,236,.6)}
+.total{margin-top:16px;padding-top:14px;border-top:1px solid rgba(247,243,236,.3)}
+.total .big{font-family:var(--disp);font-size:30px;color:var(--sun);line-height:1.1}
+.total .per{font-size:14px;color:rgba(247,243,236,.65);margin-top:5px}
+.hintline{font-size:13px;color:rgba(247,243,236,.55);margin-top:12px;line-height:1.5}
+
+.btn{width:100%;margin-top:16px;border:none;border-radius:999px;background:var(--coral);color:#fff;padding:15px;font-weight:700;font-size:15px;transition:filter var(--t) var(--ease)}
+.btn[disabled]{background:rgba(247,243,236,.16);color:rgba(247,243,236,.45);cursor:not-allowed}
+.btn.light{background:var(--paper);color:var(--deep);border:1px solid var(--line)}
+
+/* маршрут заказа */
+.ways{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:28px}
+.way{background:var(--paper);border:1px solid var(--line);border-radius:28px;padding:28px}
+.way.now{background:var(--deep);color:var(--sand);border-color:var(--deep)}
+.way h3{font-size:22px;margin-top:8px}
+.way ol{margin:16px 0 0;padding-left:20px}
+.way li{padding:5px 0;font-size:15px}
+.way.now li{color:rgba(247,243,236,.78)}
+.way.now .lab{color:rgba(247,243,236,.6)}
+.way p{margin-top:14px;font-size:15px;color:var(--muted)}
+.way.now p{color:rgba(247,243,236,.7)}
+
+.note{border:1px dashed rgba(28,140,140,.45);border-radius:24px;padding:18px 22px;margin-top:24px;font-size:15px;line-height:1.65;color:var(--muted);background:rgba(28,140,140,.05)}
+.note b{color:var(--lagoon)}
+
+.bar{
+  position:fixed;left:14px;right:14px;bottom:14px;z-index:60;max-width:1140px;margin:0 auto;
+  background:var(--deep);color:var(--sand);border-radius:999px;padding:12px 14px 12px 24px;
+  display:flex;align-items:center;gap:16px;transform:translateY(140%);transition:transform var(--t) var(--ease);
+}
+.bar.show{transform:none}
+.bar .n{font-size:14px;color:rgba(247,243,236,.65)}
+.bar .s{font-family:var(--disp);font-size:21px;margin-left:auto}
+.bar .btn{width:auto;margin:0;padding:12px 22px}
+
+footer{background:var(--deep);color:rgba(247,243,236,.72);padding:46px 0 34px;font-size:15px;line-height:1.75}
+.fgrid{display:grid;grid-template-columns:1.5fr 1fr 1fr;gap:26px}
+.fgrid .logo{color:var(--sand);display:block;margin-bottom:11px}
+.fgrid .lab{display:block;margin-bottom:11px;color:rgba(247,243,236,.55)}
+.fgrid a{color:var(--sand)}
+.sign{margin-top:34px;padding-top:18px;border-top:1px solid rgba(247,243,236,.2);font-size:13px;color:rgba(247,243,236,.45);display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.sign a{color:var(--sun)}
+
+dialog{border:none;border-radius:28px;padding:0;background:var(--sand);color:var(--deep);width:min(460px,calc(100vw - 32px))}
+dialog::backdrop{background:rgba(14,79,74,.45)}
+dialog[open]{animation:in var(--t) var(--ease)}
+@keyframes in{from{opacity:0;transform:scale(.97)}to{opacity:1;transform:none}}
+.sheet{padding:28px}
+.sheet h3{font-size:24px}
+.ord{margin-top:18px;border-top:1px solid var(--line)}
+.ord div{display:flex;justify-content:space-between;gap:12px;padding:10px 0;border-bottom:1px solid var(--line);font-size:15px}
+.ord span{color:var(--muted);min-width:0}
+label{display:block;margin-top:14px}
+label span{display:block;font-size:13px;font-weight:600;color:var(--muted);margin-bottom:6px}
+input,select{width:100%;border:1px solid var(--line);border-radius:999px;background:var(--paper);padding:12px 18px;font:400 16px var(--sans);color:var(--deep);transition:border-color var(--t) var(--ease)}
+input:focus,select:focus{outline:none;border-color:var(--lagoon)}
+
+@media (hover:hover) and (pointer:fine){
+  .add:hover{background:var(--lagoon);border-color:var(--lagoon);color:#fff}
+  .btn:hover{filter:brightness(1.06)}
+  .item:hover{border-color:var(--lagoon)}
+  .guests button:hover{background:rgba(247,243,236,.15)}
+}
+@media (max-width:960px){
+  .build,.ways,.fgrid{grid-template-columns:1fr}
+  .sum{position:static}
+  .arch{border-radius:120px 120px 28px 28px;padding:40px 24px 30px}
+  .hdr .meta{display:none}
+}
+@media (max-width:560px){
+  .wrap{padding-left:18px;padding-right:18px}
+  body{font-size:16px}
+  section{padding:40px 0}
+  .bar{padding:10px 10px 10px 18px}
+  .bar .n{display:none}
+}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *{transition-duration:.01ms!important}
+  dialog[open]{animation:none}
+}
+</style>
+</head>
+<body>
+
+<header class="hdr"><div class="wrap hdr__in">
+  <span class="logo">КИН<span>ЗА</span></span>
+  <span class="meta">Салават · кейтеринг, фуршет, банкет</span>
+  <a class="tel" href="tel:+79174215292">+7 917 421-52-92</a>
+</div></header>
+
+<div class="wrap hero">
+  <h1>Фуршет, который <em>считается сам</em></h1>
+  <p class="sub">Канапе, брускетты и тарталетки поштучно. Выбираете число гостей, собираете набор - страница показывает сумму и цену на персону.</p>
+  <div class="facts">
+    <div><b>4 600</b><span>подписчиков</span></div>
+    <div><b>от 80 ₽</b><span>за позицию</span></div>
+    <div><b>от 2 000 ₽</b><span>свадебный фуршет на персону</span></div>
+  </div>
+
+  <div class="arch">
+    <span class="lab">Ваш ориентир</span>
+    <h2>Свадебный фуршет</h2>
+    <div class="num">2 000 ₽</div>
+    <p>Это ваша же цифра на персону из сообщества. Ниже можно собрать набор и увидеть, укладывается ли он в неё.</p>
+  </div>
+</div>
+
+<!-- ───────── конструктор ───────── -->
+<section class="wrap" id="build">
+  <div class="head">
+    <h2>Соберите <em>фуршет</em></h2>
+    <p>Цены настоящие, из ваших товаров ВКонтакте. Обычная норма - шесть-восемь позиций на гостя, счётчик считает по ней.</p>
+  </div>
+
+  <div class="build">
+    <div>
+      <div class="cats" id="cats"></div>
+      <div class="items" id="items"></div>
+    </div>
+
+    <aside class="sum">
+      <span class="lab">Гостей</span>
+      <div class="guests">
+        <button id="gm" aria-label="Меньше">−</button>
+        <b id="gN">20</b>
+        <button id="gp" aria-label="Больше">+</button>
+      </div>
+      <div class="rows" id="rows"><div><span>Ничего не выбрано</span><b>—</b></div></div>
+      <div class="total">
+        <span class="lab">Итого</span>
+        <div class="big" id="tot">0 ₽</div>
+        <div class="per" id="per">выберите позиции</div>
+      </div>
+      <div class="hintline" id="hint">На гостя пока ноль позиций. Норма - шесть-восемь.</div>
+      <button class="btn" id="go" disabled>Оставить заявку</button>
+    </aside>
+  </div>
+
+  <div class="note">
+    <b>Что здесь настоящее.</b> Все позиции и цены сняты из ваших товаров - их там пятьдесят. Норму «шесть-восемь позиций на гостя» я поставил как общепринятую, вы её поправите под свою практику.
+  </div>
+</section>
+
+<!-- ───────── маршрут заказа ───────── -->
+<section class="wrap" id="way">
+  <div class="head">
+    <h2>Куда сейчас <em>уходит заказ</em></h2>
+    <p>Человек нашёл вас во ВКонтакте. Дальше начинается путь, на котором часть людей теряется, а часть приносит деньги чужой площадке.</p>
+  </div>
+  <div class="ways">
+    <div class="way now">
+      <span class="lab">Как сейчас</span>
+      <h3>Через чужие руки</h3>
+      <ol>
+        <li>Увидел ваш фуршет во ВКонтакте</li>
+        <li>Перешёл в taplink, это витрина на одну страницу</li>
+        <li>Или ушёл в Яндекс.Еду, где заказ идёт через площадку</li>
+        <li>Решил уточнить состав - пишет в Max или Telegram</li>
+      </ol>
+      <p>Собственной страницы, где всё сразу, в этой цепочке нет.</p>
+    </div>
+    <div class="way">
+      <span class="lab">Как станет</span>
+      <h3>Напрямую к вам</h3>
+      <ol>
+        <li>Открыл ссылку, увидел позиции и цены</li>
+        <li>Собрал набор, увидел сумму и цену на персону</li>
+        <li>Оставил телефон и дату</li>
+        <li>Заявка пришла вам в телеграм готовым списком</li>
+      </ol>
+      <p>Агрегатор остаётся для тех, кто пришёл из агрегатора. Своих вы ведёте сами.</p>
+    </div>
+  </div>
+</section>
+
+<footer><div class="wrap">
+  <div class="fgrid">
+    <div>
+      <span class="logo">КИНЗА</span>
+      Кейтеринг, фуршет, банкет<br>Салават
+    </div>
+    <div>
+      <span class="lab">Связь</span>
+      <a href="tel:+79174215292">+7 917 421-52-92</a><br>
+      <a href="https://vk.ru/kinza.salavat">Сообщество ВКонтакте</a>
+    </div>
+    <div>
+      <span class="lab">Форматы</span>
+      Свадебный фуршет<br>Корпоративный кейтеринг<br>Боксы на компанию
+    </div>
+  </div>
+  <div class="sign">
+    <span>Черновой пример страницы. Собрал Арсений Асянов, «Digital для бизнеса»</span>
+    <a href="https://strangehul1-design.github.io/web-chef-portfolio/ru/">портфолио</a>
+  </div>
+</div></footer>
+
+<div class="bar" id="bar">
+  <span class="n" id="barN">0 позиций</span>
+  <span class="s" id="barS">0 ₽</span>
+  <button class="btn" id="checkout">Оформить</button>
+</div>
+
+<dialog id="dlg">
+  <div class="sheet" id="s1">
+    <h3>Заявка на фуршет</h3>
+    <div class="ord" id="ord"></div>
+    <label><span>Дата</span><input id="fd" type="date"></label>
+    <label><span>Повод</span><select id="fo"><option>Свадьба</option><option>Корпоратив</option><option>День рождения</option><option>Другое</option></select></label>
+    <label><span>Телефон</span><input id="fp" type="tel" placeholder="+7"></label>
+    <button class="btn" id="send">Отправить</button>
+  </div>
+  <div class="sheet" id="s2" hidden>
+    <span class="lab" style="color:var(--coral)">Заявка принята</span>
+    <h3 style="margin-top:9px">Перезвоним</h3>
+    <div class="ord" id="okR"></div>
+    <button class="btn light" onclick="document.querySelector('#dlg').close()">Закрыть</button>
+  </div>
+</dialog>
+
+<script>
+/* FORM_CONFIG - в рабочей версии заявка уходит в Telegram. В демо форма ничего не отправляет. */
+const FORM_CONFIG = { mode:"demo", telegram_token:"", chat_id:"" };
+
+/* Цены настоящие, из товаров сообщества ВКонтакте (50 позиций). */
+const PER_GUEST = 7;
+const CATS = [
+  { t:"Поштучно", items:[
+    { n:"Минисалат «Цезарь» с копчёной курицей", u:"1 шт", p:170 },
+    { n:"Брускетта с лососем и перепелиным яйцом", u:"1 шт", p:150 },
+    { n:"Профитроль с креветкой гриль", u:"1 шт", p:130 },
+    { n:"Тарталетка с красной икрой", u:"1 шт", p:120 },
+    { n:"Брускетта «Цезарь»", u:"1 шт", p:120 },
+    { n:"Тарталетка с сёмгой", u:"1 шт", p:110 },
+    { n:"Брускетта с баклажаном фри и грецким орехом", u:"1 шт", p:100 },
+    { n:"Валован с пряной сельдью и свекольным муссом", u:"1 шт", p:90 },
+    { n:"Канапе «Италия»", u:"1 шт", p:90 },
+    { n:"Брускетта мини с салями и черри", u:"1 шт", p:80 }
+  ]},
+  { t:"Боксы", items:[
+    { n:"Бокс с мини-куриными шариками и бургером", u:"бокс", p:740 },
+    { n:"Бокс с мини-сосисками и шашлычком", u:"бокс", p:670 },
+    { n:"Бокс «Мини-микс»", u:"бокс", p:670 },
+    { n:"Бокс 2600", u:"бокс", p:2600 },
+    { n:"Бокс 2650", u:"бокс", p:2650 },
+    { n:"Бокс 2700", u:"бокс", p:2700 },
+    { n:"Бокс 2800", u:"бокс", p:2800 },
+    { n:"Бокс 2850", u:"бокс", p:2850 }
+  ]},
+  { t:"Сладкое и крупное", items:[
+    { n:"Гастропирамида", u:"на стол", p:5300 },
+    { n:"Меренговый рулет", u:"шт", p:1600 },
+    { n:"Тирамису", u:"порция", p:220 }
+  ]}
+];
+
+const $ = s => document.querySelector(s);
+const cart = new Map();
+let guests = 20, active = 0;
+
+function plural(n,f){ const m=n%100; if(m>10&&m<20) return f[2]; const k=n%10; return k===1?f[0]:(k>1&&k<5?f[1]:f[2]); }
+
+$("#cats").innerHTML = CATS.map((c,i) => `<button class="cat" data-i="${i}" aria-selected="${i===active}">${c.t}</button>`).join("");
+
+function render(){
+  const c = CATS[active];
+  $("#items").innerHTML = c.items.map((it,i) => {
+    const k = active + "_" + i, q = cart.get(k)?.q || 0;
+    return `<article class="item ${q?'on':''}">
+      <h4>${it.n}</h4>
+      <div class="u">${it.u}</div>
+      <div class="f">
+        <span class="pr">${it.p.toLocaleString('ru')} ₽</span>
+        ${q ? `<span class="qty"><button class="add" data-k="${k}" data-d="-1">−</button><b>${q}</b><button class="add" data-k="${k}" data-d="1">+</button></span>`
+            : `<button class="add" data-k="${k}" data-d="1" aria-label="Добавить">+</button>`}
+      </div>
+    </article>`;
+  }).join("");
+}
+
+function totals(){
+  let pieces = 0, s = 0, lines = 0;
+  cart.forEach(v => { s += v.q * v.it.p; lines++; if(v.it.u === "1 шт") pieces += v.q; });
+  $("#tot").textContent = s.toLocaleString('ru') + " ₽";
+  $("#per").textContent = s ? "по " + Math.round(s / guests).toLocaleString('ru') + " ₽ на гостя" : "выберите позиции";
+  const need = guests * PER_GUEST;
+  $("#hint").textContent = pieces
+    ? `Поштучных позиций ${pieces} из ${need} по норме на ${guests} гостей`
+    : `На гостя пока ноль позиций. Норма - шесть-восемь.`;
+  $("#rows").innerHTML = lines
+    ? [...cart.values()].slice(0,5).map(v => `<div><span>${v.it.n}</span><b>${v.q}</b></div>`).join("")
+      + (lines > 5 ? `<div><span>и ещё</span><b>${lines-5}</b></div>` : "")
+    : `<div><span>Ничего не выбрано</span><b>—</b></div>`;
+  $("#go").disabled = s === 0;
+  $("#barN").textContent = lines + " " + plural(lines, ["позиция","позиции","позиций"]);
+  $("#barS").textContent = s.toLocaleString('ru') + " ₽";
+  $("#bar").classList.toggle("show", s > 0);
+  return s;
+}
+
+$("#cats").addEventListener("click", e => {
+  const b = e.target.closest(".cat"); if(!b) return;
+  active = +b.dataset.i;
+  document.querySelectorAll(".cat").forEach(c => c.setAttribute("aria-selected", +c.dataset.i === active));
+  render();
+});
+
+$("#items").addEventListener("click", e => {
+  const b = e.target.closest(".add"); if(!b) return;
+  const k = b.dataset.k, [ci,ii] = k.split("_").map(Number);
+  const it = CATS[ci].items[ii];
+  const next = (cart.get(k)?.q || 0) + Number(b.dataset.d);
+  if(next <= 0) cart.delete(k); else cart.set(k, { q:next, it });
+  render(); totals();
+});
+
+$("#gm").addEventListener("click", () => { guests = Math.max(5, guests - 5); $("#gN").textContent = guests; totals(); });
+$("#gp").addEventListener("click", () => { guests = Math.min(200, guests + 5); $("#gN").textContent = guests; totals(); });
+
+function openSheet(){
+  const s = totals();
+  $("#s1").hidden = false; $("#s2").hidden = true;
+  $("#ord").innerHTML = [...cart.values()].map(v =>
+    `<div><span>${v.it.n} × ${v.q}</span><b>${(v.q*v.it.p).toLocaleString('ru')} ₽</b></div>`).join("")
+    + `<div><span>Гостей</span><b>${guests}</b></div>`
+    + `<div><span>Итого</span><b>${s.toLocaleString('ru')} ₽</b></div>`;
+  $("#dlg").showModal();
+}
+$("#go").addEventListener("click", openSheet);
+$("#checkout").addEventListener("click", openSheet);
+
+$("#send").addEventListener("click", () => {
+  const s = totals();
+  $("#okR").innerHTML = `
+    <div><span>Дата</span><b>${$("#fd").value || "уточним"}</b></div>
+    <div><span>Повод</span><b>${$("#fo").value}</b></div>
+    <div><span>Гостей</span><b>${guests}</b></div>
+    <div><span>Сумма</span><b>${s.toLocaleString('ru')} ₽</b></div>
+    <div><span>На гостя</span><b>${Math.round(s/guests).toLocaleString('ru')} ₽</b></div>
+    <div><span>Телефон</span><b>${$("#fp").value.trim() || "не указан"}</b></div>
+    <div><span>Статус</span><b>демо, не отправлено</b></div>`;
+  $("#s1").hidden = true; $("#s2").hidden = false;
+});
+
+render(); totals();
+</script>
+</body>
+</html>
